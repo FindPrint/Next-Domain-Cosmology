@@ -1,0 +1,100 @@
+---
+
+# 🚀 Résumé global du travail effectué
+
+## 1. 📥 Chargement et préparation des données
+- **Téléchargement des fichiers Pantheon+SH0ES** depuis le dépôt officiel (catalogue `.dat` et matrices de covariance `.cov`).
+- **Lecture des données SNe Ia** :  
+  - 1701 supernovae, avec redshift `zHD` et module de distance observé `MU_SH0ES`.
+- **Problème initial** : les fichiers `.cov` sont fournis sous forme aplatie (2893402 lignes).  
+  - Solution : ignorer la première ligne (entête), puis reshaper en matrices carrées 1701×1701.
+
+---
+
+## 2. 🧮 Préparation des matrices de covariance
+- **Correction SPD** : symétrisation + recalcul des valeurs propres pour garantir que les matrices soient définies positives.
+- **Construction d’une covariance blendée** :  
+  \[
+  C_{\text{blend}} = \alpha \, C_{\text{tronqué corrigé}} + (1-\alpha)\, C_{\text{stat}}
+  \]
+  avec α = 0.8 (puis balayage sur plusieurs α).
+- Vérification : valeurs propres minimales > 0 → matrices bien conditionnées.
+
+---
+
+## 3. 🌌 Modèle cosmologique
+- Définition du modèle de distance de luminosité :
+  - Intégrale de Friedmann–Lemaître :  
+    \[
+    d_L(z) = \frac{c}{H_0}(1+z)\int_0^z \frac{dz'}{\sqrt{\Omega_m(1+z')^3 + (1-\Omega_m)}}
+    \]
+  - Module de distance théorique :  
+    \[
+    \mu(z) = 5 \log_{10}(d_L(z)) + 25 + M
+    \]
+- Paramètres libres : **H₀, Ωₘ, M**.
+
+---
+
+## 4. 📊 Vraisemblances
+- Deux log‑likelihoods définies :
+  - `lnlike_tronque` → covariance complète corrigée.  
+  - `lnlike_blend` → covariance blendée.
+- Pré‑calculs : inverses de covariance et déterminants pour accélérer les évaluations.
+
+---
+
+## 5. 🔁 MCMC (Metropolis)
+- Implémentation d’un MCMC simple mais optimisé (tirages vectorisés).
+- Deux chaînes lancées :
+  - Tronqué : 6000 pas (burn‑in 1000).  
+  - Blend : 8000 pas (burn‑in 2000).
+- Résultats : estimation des distributions postérieures de H₀, Ωₘ, M.  
+- Vérification : taux d’acceptation corrects, résumés statistiques (moyenne, médiane, intervalles).
+
+---
+
+## 6. 📐 Métriques *Cosmics Tension*
+Définition de quatre indicateurs pour comparer tronqué vs blend :
+- **Stability (S)** : écart des médianes en unités σ.  
+- **Persistence (P)** : fraction de recouvrement des intervalles de crédibilité.  
+- **Degeneracy (D)** : corrélation entre paramètres (ex. H₀–M).  
+- **Robustness (R)** : score global combinant S, P, D.
+
+Résultats typiques :
+- **Ωₘ** → robuste (R ≈ 0.86–0.90).  
+- **H₀ et M** → fragiles (R ≈ 0.1–0.4), très dégénérés entre eux.
+
+---
+
+## 7. 🔄 Balayage en α
+- Boucle sur α = 0.6, 0.7, 0.8, 0.9.  
+- Pour chaque α : recalcul de `C_blend`, relance d’un MCMC rapide, calcul des métriques.  
+- Construction d’un tableau comparatif des scores R.
+
+Observation :  
+- Ωₘ reste stable et robuste.  
+- H₀ et M varient fortement avec α, avec un pic de robustesse autour de α=0.8.
+
+---
+
+## 8. 📈 Visualisations
+- **Courbes R(α)** : évolution de la robustesse pour H₀, Ωₘ, M.  
+- **Radar chart (α=0.8)** : comparaison directe des quatre métriques (S, P, D, R) pour chaque paramètre.  
+- **Grille de radars (α=0.6, 0.7, 0.8, 0.9)** : visualisation de l’évolution multidimensionnelle de la robustesse.
+
+---
+
+# ✨ Conclusion
+
+  construit un **pipeline complet et reproductible** qui va :
+1. Charger et corriger les données Pantheon+SH0ES.  
+2. Définir un modèle cosmologique simple (H₀, Ωₘ, M).  
+3. Comparer deux cadres de covariance (tronqué vs blend).  
+4. Explorer la stabilité des paramètres via MCMC.  
+5. Quantifier la robustesse avec tes métriques *Cosmics Tension*.  
+6. Visualiser les résultats sous forme de tableaux, courbes et radars.
+
+👉 En clair : je démontre que **Ωₘ est robuste**, tandis que **H₀ et M sont instables et dégénérés**, et que cette fragilité dépend du poids α attribué à la covariance systématique.
+
+---

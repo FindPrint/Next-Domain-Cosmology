@@ -1,0 +1,88 @@
+---
+
+# **Analyse de la robustesse cosmologique avec le pipeline *Cosmics Tension***
+
+## Introduction
+La détermination précise des paramètres cosmologiques, en particulier la constante de Hubble \(H_0\), reste l’un des enjeux majeurs de la cosmologie moderne. Les tensions observées entre différentes méthodes de mesure (supernovae de type Ia, anisotropies du fond diffus cosmologique, céphéides locales) soulèvent la question de la robustesse des résultats face aux choix méthodologiques.  
+Dans ce travail, nous développons un pipeline complet, baptisé *Cosmics Tension*, qui vise à quantifier la stabilité des paramètres cosmologiques en comparant différentes matrices de covariance issues du jeu de données **Pantheon+SH0ES**.
+
+---
+
+## Méthodes
+
+### Données
+- **Catalogue** : 1701 supernovae de type Ia (Pantheon+SH0ES).  
+- **Observables** : redshift \(z\) et module de distance observé \(\mu_{\text{obs}}\).  
+- **Covariances** : matrices statistiques seules (STATONLY) et complètes (STAT+SYS).
+
+### Prétraitement
+- Les fichiers de covariance sont fournis sous forme aplatie (2893402 lignes).  
+- Reshape en matrices carrées \(1701 \times 1701\).  
+- Correction SPD (symétrisation + régularisation des valeurs propres).  
+- Construction d’une covariance blendée :  
+  \[
+  C_{\text{blend}}(\alpha) = \alpha C_{\text{STAT+SYS}} + (1-\alpha) C_{\text{STATONLY}}
+  \]
+
+### Modèle cosmologique
+- Distance de luminosité :  
+  \[
+  d_L(z) = \frac{c}{H_0}(1+z)\int_0^z \frac{dz'}{\sqrt{\Omega_m(1+z')^3 + (1-\Omega_m)}}
+  \]
+- Module de distance théorique :  
+  \[
+  \mu(z) = 5 \log_{10}(d_L(z)) + 25 + M
+  \]
+- Paramètres libres : \(H_0, \Omega_m, M\).
+
+### Vraisemblances
+- Deux log‑likelihoods définies :  
+  - \(\mathcal{L}_{\text{tronqué}}\) (covariance complète corrigée).  
+  - \(\mathcal{L}_{\text{blend}}\) (covariance blendée).
+
+### Inférence bayésienne
+- Algorithme Metropolis–Hastings (MCMC).  
+- Chaînes de 6000–8000 pas, avec burn‑in adapté.  
+- Résumés statistiques : moyenne, médiane, intervalles de crédibilité.
+
+### Métriques *Cosmics Tension*
+Quatre indicateurs pour comparer les postérieurs tronqué vs blend :
+1. **Stability (S)** : écart des médianes en unités σ.  
+2. **Persistence (P)** : fraction de recouvrement des intervalles de crédibilité.  
+3. **Degeneracy (D)** : corrélation entre paramètres.  
+4. **Robustness (R)** : combinaison pondérée de S, P, D.
+
+---
+
+## Résultats
+
+- **Ωₘ** : robuste et stable (R ≈ 0.86–0.90), peu sensible au choix de covariance.  
+- **H₀ et M** : fragiles (R ≈ 0.1–0.4), fortement dégénérés (D ≈ 0.99), avec une sensibilité marquée à α.  
+- Balayage en α (0.6–0.9) :  
+  - Ωₘ reste stable.  
+  - H₀ et M montrent un minimum de robustesse à α=0.7 et un rebond à α=0.8.  
+
+Visualisations :
+- **Courbes R(α)** : Ωₘ reste haut, H₀/M oscillent.  
+- **Radar chart (α=0.8)** : Ωₘ occupe un polygone équilibré, H₀/M sont écrasés.  
+- **Grille de radars (α=0.6–0.9)** : évolution multidimensionnelle claire de la robustesse.
+
+---
+
+## Discussion
+Ces résultats confirment que :
+- La contrainte sur Ωₘ est robuste, indépendante du traitement des covariances.  
+- La tension sur H₀ n’est pas un simple artefact numérique : elle reflète une instabilité structurelle, amplifiée par la dégénérescence avec le paramètre de nuisance M.  
+- Le paramètre α agit comme un révélateur de robustesse : certaines valeurs (≈0.8) atténuent partiellement l’instabilité, mais ne la suppriment pas.
+
+---
+
+## Conclusion
+Le pipeline *Cosmics Tension* fournit une méthode systématique pour évaluer la robustesse des paramètres cosmologiques.  
+- Il met en évidence la stabilité d’Ωₘ et la fragilité de H₀/M.  
+- Il démontre que la tension sur H₀ est intrinsèquement liée au choix de covariance et à la dégénérescence avec M.  
+- Les visualisations (courbes et radars) offrent un outil pédagogique puissant pour communiquer ces résultats.  
+
+👉 Ce cadre peut être généralisé à d’autres jeux de données cosmologiques et servir de base à une évaluation comparative des tensions actuelles en cosmologie.
+
+---

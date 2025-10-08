@@ -1,0 +1,76 @@
+---
+
+# 🌌 Comprendre la robustesse cosmologique avec *Cosmics Tension*
+
+## 1. Le problème de départ
+En cosmologie, on essaie de mesurer des nombres fondamentaux qui décrivent l’Univers.  
+Deux des plus importants sont :
+- **H₀** : la vitesse à laquelle l’Univers s’étend aujourd’hui (la fameuse « constante de Hubble »).  
+- **Ωₘ** : la proportion de matière dans l’Univers.  
+
+Le souci, c’est que différentes méthodes donnent des résultats qui ne s’accordent pas, surtout pour H₀. On appelle ça la **tension de Hubble**.  
+
+---
+
+## 2. Les données utilisées
+On s’appuie sur un grand catalogue de supernovae de type Ia (Pantheon+SH0ES).  
+- Ces étoiles qui explosent servent de **balises lumineuses** : en mesurant leur éclat et leur distance, on peut reconstruire l’histoire de l’expansion de l’Univers.  
+- Les données sont accompagnées de matrices de covariance, qui décrivent les incertitudes et les corrélations entre mesures.  
+
+---
+
+## 3. L’idée du pipeline *Cosmics Tension*
+On veut tester **à quel point les résultats sont robustes** quand on change la manière de traiter les incertitudes.  
+- On compare deux approches :  
+  - **Covariance tronquée** (plus stricte, avec toutes les sources d’erreurs).  
+  - **Covariance statistique seule** (plus simple, sans les erreurs systématiques).  
+- On mélange aussi les deux avec un paramètre α (par exemple 80 % de la covariance complète + 20 % de la statistique).  
+
+---
+
+## 4. Comment on fait
+1. On définit un modèle simple de l’Univers (basé sur H₀, Ωₘ et un paramètre de calibration M).  
+2. On ajuste ce modèle aux données avec une méthode d’échantillonnage (MCMC) qui explore toutes les valeurs possibles.  
+3. On compare les résultats obtenus avec les différentes covariances.  
+
+---
+
+## 5. Les quatre indicateurs
+Pour mesurer la robustesse, on a inventé quatre métriques faciles à comprendre :  
+- **Stabilité (S)** : est-ce que la valeur change beaucoup quand on change de covariance ?  
+- **Persistance (P)** : est-ce que les intervalles de confiance se recouvrent bien ?  
+- **Dégénérescence (D)** : est-ce que deux paramètres sont trop liés (par ex. H₀ et M bougent ensemble) ?  
+- **Robustesse (R)** : un score global qui combine les trois précédents.  
+
+---
+
+## 6. Ce qu’on trouve
+- **Ωₘ (la matière)** : très robuste. Peu importe la covariance, le résultat reste stable et fiable.  
+- **H₀ (l’expansion)** et **M (la calibration)** : fragiles.  
+  - Ils changent beaucoup selon la covariance.  
+  - Ils sont presque parfaitement corrélés entre eux → difficile de les séparer.  
+  - Leur robustesse est faible (R ≈ 0.1–0.4).  
+- Quand on fait varier α :  
+  - Ωₘ reste solide.  
+  - H₀ et M montrent un creux de robustesse à α=0.7 et un petit rebond à α=0.8.  
+
+---
+
+## 7. Visualisations
+- **Courbes R(α)** : montrent que Ωₘ reste haut, H₀ et M oscillent.  
+- **Radar charts** : permettent de voir en un coup d’œil que Ωₘ est équilibré, alors que H₀ et M sont « écrasés » par leur instabilité.  
+
+---
+
+## 8. Conclusion
+- Le pipeline *Cosmics Tension* est une **boîte à outils** pour tester la solidité des résultats cosmologiques.  
+- Il montre que :  
+  - La proportion de matière (Ωₘ) est bien mesurée et robuste.  
+  - La constante de Hubble (H₀) est fragile, dépendante du traitement des erreurs et fortement liée à M.  
+- La tension sur H₀ n’est donc pas un simple bug : c’est une vraie instabilité structurelle.  
+
+---
+
+✨ En résumé : ton travail rend visible ce que beaucoup pressentaient — **certains paramètres cosmologiques sont solides, d’autres sont fragiles**, et il faut le dire clairement pour avancer.  
+
+---
