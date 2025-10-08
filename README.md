@@ -91,6 +91,3 @@ The *Cosmics Tension* pipeline provides a systematic method to evaluate the robu
 👉 This framework can be generalized to other cosmological datasets and serve as a basis for comparative evaluation of current tensions in cosmology.
 
 ---
-
-
-Would you like me to also prepare a **shortened “executive summary” version** (5–6 sentences, no equations) that you can put at the very top of your README as a quick overview?
