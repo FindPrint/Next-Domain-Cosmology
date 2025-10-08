@@ -355,3 +355,4 @@ In this sense, it transforms an “open wound” (the H₀ tension) into a **con
 
 --- 
 
+Licence (MIT)
