@@ -1,0 +1,76 @@
+---
+
+# 🌌 Understanding Cosmological Robustness with *Cosmics Tension*
+
+## 1. The Starting Problem
+In cosmology, we try to measure fundamental numbers that describe the Universe.  
+Two of the most important are:
+- **H₀**: the rate at which the Universe is expanding today (the famous “Hubble constant”).  
+- **Ωₘ**: the proportion of matter in the Universe.  
+
+The issue is that different methods give results that don’t agree, especially for H₀. This is known as the **Hubble tension**.  
+
+---
+
+## 2. The Data Used
+We rely on a large catalog of Type Ia supernovae (Pantheon+SH0ES).  
+- These exploding stars serve as **cosmic beacons**: by measuring their brightness and distance, we can reconstruct the history of the Universe’s expansion.  
+- The data come with covariance matrices, which describe uncertainties and correlations between measurements.  
+
+---
+
+## 3. The Idea of the *Cosmics Tension* Pipeline
+We want to test **how robust the results are** when we change how uncertainties are treated.  
+- We compare two approaches:  
+  - **Full covariance** (stricter, includes all sources of error).  
+  - **Statistical‑only covariance** (simpler, excludes systematics).  
+- We also mix the two with a parameter $$\alpha$$ (for example, 80% full covariance + 20% statistical).  
+
+---
+
+## 4. How It Works
+1. Define a simple model of the Universe (based on H₀, Ωₘ, and a calibration parameter M).  
+2. Fit this model to the data using a sampling method (MCMC) that explores all possible values.  
+3. Compare the results obtained with the different covariances.  
+
+---
+
+## 5. The Four Indicators
+To measure robustness, we designed four easy‑to‑understand metrics:  
+- **Stability (S)**: does the value change a lot when covariance changes?  
+- **Persistence (P)**: do the confidence intervals overlap well?  
+- **Degeneracy (D)**: are two parameters too tightly linked (e.g. H₀ and M moving together)?  
+- **Robustness (R)**: a global score combining the three above.  
+
+---
+
+## 6. What We Find
+- **Ωₘ (matter)**: very robust. No matter the covariance, the result stays stable and reliable.  
+- **H₀ (expansion)** and **M (calibration)**: fragile.  
+  - They change significantly depending on covariance.  
+  - They are almost perfectly correlated → hard to separate.  
+  - Their robustness is low (R ≈ 0.1–0.4).  
+- When varying $$\alpha$$:  
+  - Ωₘ remains solid.  
+  - H₀ and M show a dip in robustness at $$\alpha = 0.7$$ and a rebound at $$\alpha = 0.8$$.  
+
+---
+
+## 7. Visualizations
+- **R(α) curves**: show Ωₘ stays high, while H₀ and M oscillate.  
+- **Radar charts**: make it clear at a glance that Ωₘ is balanced, while H₀ and M are “flattened” by their instability.  
+
+---
+
+## 8. Conclusion
+- The *Cosmics Tension* pipeline is a **toolbox** for testing the solidity of cosmological results.  
+- It shows that:  
+  - The matter fraction (Ωₘ) is well measured and robust.  
+  - The Hubble constant (H₀) is fragile, dependent on error treatment, and strongly tied to M.  
+- The H₀ tension is therefore not a simple bug: it is a real structural instability.  
+
+---
+
+✨ In summary: this work makes visible what many suspected — **some cosmological parameters are solid, others are fragile**, and it is important to state this clearly in order to move forward.  
+
+--- 
